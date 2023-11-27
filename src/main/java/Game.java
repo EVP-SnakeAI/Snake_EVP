@@ -77,7 +77,7 @@ public class Game extends JPanel{
         g.setColor(Color.red);
         g.setFont( new Font("Ink Free",Font.BOLD, 75));
         FontMetrics metrics2 = getFontMetrics(g.getFont());
-        g.drawString("Game Over", (kepernyoSzelesseg - metrics2.stringWidth("Game Over"))/2,kepernyoHossz/2);
+        g.drawString("Game Over", (kepernyoSzelesseg - metrics2.stringWidth("Vége a játéknak!"))/2,kepernyoHossz/2);
     }
  
 }
