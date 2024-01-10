@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,7 +43,7 @@ public class Frame extends JFrame implements ActionListener {
         gombJatek.addActionListener(new ActionListener() { 
             @Override
             public void actionPerformed(ActionEvent e) { 
-                FrameA.add(new Game());
+                FrameA.add(new SnakeGame());
                 FrameA.setTitle("Snake_EVP");
                 FrameA.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 FrameA.setResizable(false);
