@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -8,6 +11,7 @@ import javax.swing.border.LineBorder;
 public class Frame extends JFrame implements ActionListener {    
     private JPanel panel = new JPanel(new GridBagLayout());
     private JButton gombJatek = new JButton("Játék");
+    private JButton gombSpeed = new JButton("Játék (Speedy)");
     private JButton gombGepJatek = new JButton("MI mód");
     private JLabel cim = new JLabel("Snake", SwingConstants.CENTER);
     
@@ -30,6 +34,12 @@ public class Frame extends JFrame implements ActionListener {
         gombGepJatek.setBorder(gombSzegely);
         gombGepJatek.setFont(new Font("Serif", Font.BOLD, 30));
         
+        gombSpeed.setPreferredSize(new Dimension(200, 80));
+        gombSpeed.setBackground(Color.GREEN);
+        gombSpeed.setFocusPainted(false);
+        gombSpeed.setBorder(gombSzegely);
+        gombSpeed.setFont(new Font("Serif", Font.BOLD, 30));
+        
         GridBagConstraints gridElrendezes = new GridBagConstraints();
         gridElrendezes.gridwidth = GridBagConstraints.REMAINDER;
         gridElrendezes.fill = GridBagConstraints.HORIZONTAL;
@@ -38,11 +48,53 @@ public class Frame extends JFrame implements ActionListener {
         panel.setBackground(Color.BLACK);
         panel.add(cim, gridElrendezes);
         panel.add(gombJatek, gridElrendezes);
+        panel.add(gombSpeed, gridElrendezes);
         panel.add(gombGepJatek, gridElrendezes);
         
         gombJatek.addActionListener(new ActionListener() { 
             @Override
-            public void actionPerformed(ActionEvent e) { 
+            public void actionPerformed(ActionEvent e) {
+                
+                try {
+                        File fajl = new File("gamemode.txt");
+                        fajl.delete();
+                        File ujfajl = new File("gamemode.txt");
+                        ujfajl.createNewFile();
+                        FileWriter iro = new FileWriter("gamemode.txt");
+                        iro.write("false\n");
+                        iro.write("false");
+                        iro.close();
+                         
+                }catch (IOException x) {
+                        x.printStackTrace();
+                }
+                FrameA.add(new SnakeGame());
+                FrameA.setTitle("Snake_EVP");
+                FrameA.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                FrameA.setResizable(false);
+                FrameA.pack();
+                FrameA.setVisible(true);
+                FrameA.setLocationRelativeTo(null);
+            }
+        });
+
+        gombSpeed.addActionListener(new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                try {
+                        File fajl = new File("gamemode.txt");
+                        fajl.delete();
+                        File ujfajl = new File("gamemode.txt");
+                        ujfajl.createNewFile();
+                        FileWriter iro = new FileWriter("gamemode.txt");
+                        iro.write("true\n");
+                        iro.write("false");
+                        iro.close();
+                         
+                }catch (IOException x) {
+                        x.printStackTrace();
+                }
                 FrameA.add(new SnakeGame());
                 FrameA.setTitle("Snake_EVP");
                 FrameA.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,7 +108,7 @@ public class Frame extends JFrame implements ActionListener {
         this.add(panel);
         this.setTitle("Snake_EVP Főmenü");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension(600, 600));
+        this.setPreferredSize(new Dimension(600, 700));
         this.setResizable(false);
         this.pack();
         this.setVisible(true);

@@ -11,17 +11,19 @@ import java.util.Scanner;
 
 public class SnakeGame extends JPanel implements ActionListener{
 
-    private static final int kepernyoSzelesseg = 800;
-    private static final int kepernyoHossz = 600;
-    private static final int meret = 30;
+    private static final int kepernyoSzelesseg = 700;
+    private static final int kepernyoHossz = 700;
+    private static final int meret = 25;
     private static final int jatekMeret = (kepernyoSzelesseg*kepernyoHossz)/(meret*meret);
-    private static final int kesleltetes = 120;
+    private static int kesleltetes = 120;
     private final int x[] = new int[jatekMeret];
     private final int y[] = new int[jatekMeret];
     private int kigyoHossz = 6;
     private int megevettAlmak;
     private int almaX;
     private int almaY;
+    private boolean speedy;
+    private boolean akadaly;
     char irany = 'R';
     boolean fut = false;
     private Timer timer;
@@ -34,15 +36,28 @@ public class SnakeGame extends JPanel implements ActionListener{
             this.setBackground(Color.black);
             this.setFocusable(true);
             this.addKeyListener(new MyKeyAdapter());
-            getRekord();
+            GetRekord();
+            GetGamemode();
             startGame();
     }
     
-    public void getRekord(){     
+    public void GetRekord(){     
         try {
             File fajl = new File("rekord.txt");
             Scanner olvaso = new Scanner(fajl);
             rekord = Integer.parseInt(olvaso.nextLine());
+            olvaso.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+   }
+    
+   public void GetGamemode(){     
+        try {
+            File fajl = new File("gamemode.txt");
+            Scanner olvaso = new Scanner(fajl);
+            speedy = Boolean.parseBoolean(olvaso.nextLine());
+            akadaly = Boolean.parseBoolean(olvaso.nextLine());
             olvaso.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -62,10 +77,10 @@ public class SnakeGame extends JPanel implements ActionListener{
     public void Rajzolas(Graphics g) {
 
             if(fut) {
-                    /*
+                    /* 
                     for(int i=0;i<kepernyoHossz/meret;i++) {
-                            g.RajzolasLine(i*meret, 0, i*meret, kepernyoHossz);
-                            g.RajzolasLine(0, i*meret, kepernyoSzelesseg, i*meret);
+                            g.drawLine(i*meret, 0, i*meret, kepernyoHossz);
+                            g.drawLine(0, i*meret, kepernyoSzelesseg, i*meret);
                     }
                     */
                     g.setColor(Color.red);
@@ -123,6 +138,12 @@ public class SnakeGame extends JPanel implements ActionListener{
                     kigyoHossz++;
                     megevettAlmak++;
                     UjAlma();
+                    if(speedy){
+                        timer.stop();
+                        kesleltetes -= 4;
+                        timer = new Timer(kesleltetes,this);
+                        timer.start();
+                    }
             }
     }
     public void Utkozes() {
@@ -137,7 +158,7 @@ public class SnakeGame extends JPanel implements ActionListener{
                     fut = false;
             }
             //ütközés a jobboldali fallal
-            if(x[0] > kepernyoSzelesseg) {
+            if(x[0] >= kepernyoSzelesseg) {
                     fut = false;
             }
             //ütközés a felső fallal
@@ -145,7 +166,7 @@ public class SnakeGame extends JPanel implements ActionListener{
                     fut = false;
             }
             ///ütközés az alsó fallal
-            if(y[0] > kepernyoHossz) {
+            if(y[0] >= kepernyoHossz) {
                     fut = false;
             }
 
@@ -160,9 +181,9 @@ public class SnakeGame extends JPanel implements ActionListener{
             FontMetrics metrics1 = getFontMetrics(g.getFont());
             g.drawString("Pontszám: "+megevettAlmak, (kepernyoSzelesseg - metrics1.stringWidth("Pontszám: "+megevettAlmak))/2, g.getFont().getSize());
             if(megevettAlmak <= rekord)
-                g.drawString("Rekord: " + rekord, (kepernyoSzelesseg - metrics1.stringWidth("Rekord: "))/2, 370);
+                g.drawString("Rekord: " + rekord, (kepernyoSzelesseg - metrics1.stringWidth("Rekord: "+ rekord))/2, 400);
             else{
-                g.drawString("Új Rekord: " + megevettAlmak, (kepernyoSzelesseg - metrics1.stringWidth("Új Rekord: "))/2, 370);
+                g.drawString("Új Rekord: " + megevettAlmak, (kepernyoSzelesseg - metrics1.stringWidth("Új Rekord: " + megevettAlmak))/2, 400);
                 File fajl = new File("rekord.txt");
                 fajl.delete();
                 try {
