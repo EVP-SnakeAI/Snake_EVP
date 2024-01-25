@@ -12,6 +12,8 @@ public class Frame extends JFrame implements ActionListener {
     private JPanel panel = new JPanel(new GridBagLayout());
     private JButton gombJatek = new JButton("Játék");
     private JButton gombSpeed = new JButton("Játék (Speedy)");
+    private JButton gombAkadaly = new JButton("Játék (Akadállyal)");
+    private JButton gombVegyes = new JButton("Speddy/Akadállyal");
     private JButton gombGepJatek = new JButton("MI mód");
     private JLabel cim = new JLabel("Snake", SwingConstants.CENTER);
     
@@ -19,7 +21,7 @@ public class Frame extends JFrame implements ActionListener {
         JFrame FrameA = new JFrame();
         
         cim.setForeground(Color.red);
-        cim.setFont(new Font("Serif", Font.BOLD, 100));
+        cim.setFont(new Font("Serif", Font.BOLD, 90));
         
         gombJatek.setPreferredSize(new Dimension(200, 80));
         gombJatek.setBackground(Color.GREEN);
@@ -40,6 +42,18 @@ public class Frame extends JFrame implements ActionListener {
         gombSpeed.setBorder(gombSzegely);
         gombSpeed.setFont(new Font("Serif", Font.BOLD, 30));
         
+        gombAkadaly.setPreferredSize(new Dimension(200, 80));
+        gombAkadaly.setBackground(Color.GREEN);
+        gombAkadaly.setFocusPainted(false);
+        gombAkadaly.setBorder(gombSzegely);
+        gombAkadaly.setFont(new Font("Serif", Font.BOLD, 30));
+        
+        gombVegyes.setPreferredSize(new Dimension(200, 80));
+        gombVegyes.setBackground(Color.GREEN);
+        gombVegyes.setFocusPainted(false);
+        gombVegyes.setBorder(gombSzegely);
+        gombVegyes.setFont(new Font("Serif", Font.BOLD, 30));
+        
         GridBagConstraints gridElrendezes = new GridBagConstraints();
         gridElrendezes.gridwidth = GridBagConstraints.REMAINDER;
         gridElrendezes.fill = GridBagConstraints.HORIZONTAL;
@@ -49,6 +63,8 @@ public class Frame extends JFrame implements ActionListener {
         panel.add(cim, gridElrendezes);
         panel.add(gombJatek, gridElrendezes);
         panel.add(gombSpeed, gridElrendezes);
+        panel.add(gombAkadaly, gridElrendezes);
+        panel.add(gombVegyes, gridElrendezes);
         panel.add(gombGepJatek, gridElrendezes);
         
         gombJatek.addActionListener(new ActionListener() { 
@@ -90,6 +106,60 @@ public class Frame extends JFrame implements ActionListener {
                         FileWriter iro = new FileWriter("gamemode.txt");
                         iro.write("true\n");
                         iro.write("false");
+                        iro.close();
+                         
+                }catch (IOException x) {
+                        x.printStackTrace();
+                }
+                FrameA.add(new SnakeGame());
+                FrameA.setTitle("Snake_EVP");
+                FrameA.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                FrameA.setResizable(false);
+                FrameA.pack();
+                FrameA.setVisible(true);
+                FrameA.setLocationRelativeTo(null);
+            }
+        });
+        
+        gombAkadaly.addActionListener(new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                try {
+                        File fajl = new File("gamemode.txt");
+                        fajl.delete();
+                        File ujfajl = new File("gamemode.txt");
+                        ujfajl.createNewFile();
+                        FileWriter iro = new FileWriter("gamemode.txt");
+                        iro.write("false\n");
+                        iro.write("true");
+                        iro.close();
+                         
+                }catch (IOException x) {
+                        x.printStackTrace();
+                }
+                FrameA.add(new SnakeGame());
+                FrameA.setTitle("Snake_EVP");
+                FrameA.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                FrameA.setResizable(false);
+                FrameA.pack();
+                FrameA.setVisible(true);
+                FrameA.setLocationRelativeTo(null);
+            }
+        });
+        
+        gombVegyes.addActionListener(new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                try {
+                        File fajl = new File("gamemode.txt");
+                        fajl.delete();
+                        File ujfajl = new File("gamemode.txt");
+                        ujfajl.createNewFile();
+                        FileWriter iro = new FileWriter("gamemode.txt");
+                        iro.write("true\n");
+                        iro.write("true");
                         iro.close();
                          
                 }catch (IOException x) {
