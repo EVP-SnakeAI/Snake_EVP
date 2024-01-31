@@ -174,6 +174,19 @@ public class Frame extends JFrame implements ActionListener {
                 FrameA.setLocationRelativeTo(null);
             }
         });
+
+        gombGepJatek.addActionListener(new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FrameA.add(new SnakeGameMI());
+                FrameA.setTitle("Snake_EVP");
+                FrameA.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                FrameA.setResizable(false);
+                FrameA.pack();
+                FrameA.setVisible(true);
+                FrameA.setLocationRelativeTo(null);
+            }
+        });
  
         this.add(panel);
         this.setTitle("Snake_EVP Főmenü");
